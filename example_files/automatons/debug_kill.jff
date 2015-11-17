@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!--Created with JFLAP 6.4.--><structure>
+	<type>fa</type>
+	<automaton>
+		<!--The list of states.-->
+		<state id="0" name="q0">
+			<x>54.0</x>
+			<y>131.0</y>
+			<initial/>
+		</state>
+		<state id="1" name="q1">
+			<x>307.0</x>
+			<y>132.0</y>
+		</state>
+		<state id="2" name="q2">
+			<x>532.0</x>
+			<y>30.0</y>
+			<label>green</label>
+			<final/>
+		</state>
+		<state id="3" name="q3">
+			<x>513.0</x>
+			<y>264.0</y>
+			<label>red</label>
+			<final/>
+		</state>
+		<!--The list of transitions.-->
+		<transition>
+			<from>1</from>
+			<to>3</to>
+			<read>killing(app: @monitored)</read>
+		</transition>
+		<transition>
+			<from>0</from>
+			<to>1</to>
+			<read>debug_mode(app: @monitored)</read>
+		</transition>
+		<transition>
+			<from>1</from>
+			<to>2</to>
+			<read>debugger(app: @monitored)</read>
+		</transition>
+	</automaton>
+</structure>

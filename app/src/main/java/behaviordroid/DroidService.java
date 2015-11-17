@@ -9,9 +9,9 @@ import android.os.IBinder;
 
 import behaviordroid.listener.LogcatListener;
 import behaviordroid.listener.ProcessListener;
-import behaviordroid.util.BootLoader;
+import behaviordroid.util.Bootloader;
 import behaviordroid.util.Logger;
-import behaviordroid.util.Configuration;
+import behaviordroid.util.DroidConfiguration;
 import behaviordroid.util.Globals;
 import behaviordroid.util.OnRunServiceListener;
 
@@ -115,7 +115,7 @@ public class DroidService extends Service {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                BootLoader.boot();
+                Bootloader.boot();
                 return true;
 
             } catch (Exception e) {
@@ -135,11 +135,11 @@ public class DroidService extends Service {
                 }
                 status = MONITORING;
 
-                if (Configuration.isListenToSystemCalls()) {
+                if (DroidConfiguration.isListenToSystemCalls()) {
                     ProcessListener.startListening();
                 }
 
-                if (Configuration.isListenToLogcat()) {
+                if (DroidConfiguration.isListenToLogcat()) {
                     LogcatListener.startListening();
                 }
             }

@@ -12,7 +12,7 @@ import behaviordroid.automaton.symbol.Symbol;
 import behaviordroid.automaton.symbol.SymbolStructureStrace;
 import behaviordroid.monitor.Monitor;
 import behaviordroid.util.Logger;
-import behaviordroid.util.Configuration;
+import behaviordroid.util.DroidConfiguration;
 import behaviordroid.util.Constants;
 import behaviordroid.util.Globals;
 
@@ -117,7 +117,7 @@ public class ProcessListener extends Thread {
 
 
                 //Sleep for performance...
-                Thread.sleep(Configuration.getSleepTimeProcessListener());
+                Thread.sleep(DroidConfiguration.getSleepTimeProcessListener());
 
 
             }

@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import behaviordroid.automaton.symbol.Symbol;
 import behaviordroid.monitor.MonitorManager;
 import behaviordroid.util.Logger;
-import behaviordroid.util.Configuration;
+import behaviordroid.util.DroidConfiguration;
 import behaviordroid.util.Globals;
 
 /**
@@ -37,7 +37,7 @@ public class StraceListener extends Thread {
 
         try {
 
-            strace = Runtime.getRuntime().exec("su -c " + Configuration.getStracePath() + " -p " + pid);
+            strace = Runtime.getRuntime().exec("su -c " + DroidConfiguration.getStracePath() + " -p " + pid);
             BufferedReader br = new BufferedReader(new InputStreamReader(strace.getErrorStream()));
 
 

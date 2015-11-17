@@ -5,7 +5,7 @@ import java.util.List;
 
 import behaviordroid.automaton.Automaton;
 import behaviordroid.monitor.Monitor;
-import behaviordroid.util.Configuration;
+import behaviordroid.util.DroidConfiguration;
 import behaviordroid.util.Constants;
 import behaviordroid.util.InconsistentSpecificationException;
 import behaviordroid.util.NonDeterministicException;
@@ -21,7 +21,7 @@ public class FactoryMonitor {
 
         if (automatonList != null) {
             for (Automaton a : automatonList) {
-                if (Configuration.isMinimizeAllAutomatons()) {
+                if (DroidConfiguration.isMinimizeAllAutomatons()) {
                     Minimizer.minimizeAutomaton(a);
                     Minimizer.removeLoops(a);
                 }

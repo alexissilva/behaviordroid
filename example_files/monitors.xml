@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<monitors>
+
+	<monitor app="com.robtopx.geometryjumplite">
+		<automaton>dash_1.jff</automaton>
+		<automaton>dash_2.jff</automaton>
+	</monitor>
+
+	<monitor app="cl.utfsm.fooapp">
+		<automaton>debug_kill.jff</automaton>
+	</monitor>
+
+	<monitor app="org.mozilla.firefox">
+		<automaton>strace.jff</automaton>
+	</monitor>
+
+</monitors>

@@ -25,7 +25,7 @@ import behaviordroid.monitor.MonitorManager;
 /**
  * Created by Alexis on 04-06-15.
  */
-public class BootLoader {
+public class Bootloader {
 
     public static void boot() throws ParserConfigurationException, SAXException, IOException, InconsistentSpecificationException, NonDeterministicException {
 
@@ -42,7 +42,7 @@ public class BootLoader {
     private static void configStructures() throws IOException, SAXException, ParserConfigurationException {
 
         //Read symbol structure file...
-        SymbolStructureReader structureReader = new SymbolStructureReader(Configuration.getSymbolStructureFilePath());
+        SymbolStructureReader structureReader = new SymbolStructureReader(DroidConfiguration.getSymbolStructureFilePath());
         List<SymbolStructure> symbolStructureList = structureReader.read();
 
         //Set values
@@ -57,7 +57,7 @@ public class BootLoader {
     private static void configAutomatons() throws IOException, SAXException, ParserConfigurationException, NonDeterministicException {
 
         //Create an automaton reader per file existing in the automaton directory...
-        File[] automatonFiles = new File(Configuration.getAutomatonFileDirectory()).listFiles();
+        File[] automatonFiles = new File(DroidConfiguration.getAutomatonFileDirectory()).listFiles();
         if (automatonFiles == null) {
             throw new IOException("[" + automatonFiles + "] doesn't exist.");
         }
@@ -88,7 +88,7 @@ public class BootLoader {
     private static void configMonitors() throws IOException, SAXException, ParserConfigurationException, NonDeterministicException, InconsistentSpecificationException {
 
         //Read monitor file...
-        MonitorReader appMonitorReader = new MonitorReader(Configuration.getMonitorFilePath());
+        MonitorReader appMonitorReader = new MonitorReader(DroidConfiguration.getMonitorFilePath());
         List<MonitorDescription> monitorDescriptionList = appMonitorReader.read();
 
         //Call to factory monitor...

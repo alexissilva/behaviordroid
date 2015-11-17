@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<symbol_structures>
+
+	<symbol_structure id="debug_mode" type="logcat">
+		<params>
+			<param id="app">.*</param>
+		</params>
+		<app_location>pid</app_location>
+		<name>Debug Mode</name>
+		<description>Enable Debug Mode</description>
+		<level>D</level>
+		<tag>OpenGLRenderer</tag>
+		<message_syntax>
+			<expression>Enabling debug mode [0-9]+</expression>
+		</message_syntax>
+	</symbol_structure>
+
+		<symbol_structure id="debugger" type="logcat">
+		<params>
+			<param id="app">.*</param>
+		</params>
+		<app_location>pid</app_location>
+		<name>Debugger</name>
+		<description>Debugger is active</description>
+		<level>I</level>
+		<tag>dalvikvm</tag>
+		<message_syntax>
+			<expression>Debugger is active</expression>
+		</message_syntax>
+	</symbol_structure>
+
+	<symbol_structure id="killing" type="logcat">
+		<params>
+			<param id="app">.*</param>
+		</params>
+		<app_location>message</app_location>
+		<name>Killing Application</name>
+		<description>Killing an application</description>
+		<level>I</level>
+		<tag>ActivityManager</tag>
+		<message_syntax>
+			<expression>Killing [0-9]+\:([^\:]*)(\:[a-z0-9]+)?\/[a-z0-9]+ \(adj [0-9]+\): remove task</expression>
+			<catch param="app" group="1"/>
+		</message_syntax>
+	</symbol_structure> 
+
+	<symbol_structure id="geometry_dash" type="logcat">
+		<params>
+			<param id="state">(RESUME)|(PAUSE)</param> 
+		</params>
+		<app_location>no_app</app_location>
+		<name>State of Geometry Dash</name>
+		<description>The application (Geometry Dash) changed of state.</description>
+		<level>D</level>
+		<tag>RobTopBase</tag>
+		<message_syntax>
+			<expression>ON NATIVE (.*)</expression>
+			<catch param="state" group="1"/>
+		</message_syntax>
+	</symbol_structure>
+
+	<symbol_structure id="write" type="strace">
+		<name_call>write</name_call>
+		<params>
+			<param id="app">.*</param>
+			<!-- File descriptor -->
+			<param id="p1">.*</param>
+		</params>
+		<name>Write</name>
+		<description>Writes up to count bytes from the buffer</description>
+	</symbol_structure>
+
+	<symbol_structure id="read" type="strace">
+		<name_call>read</name_call>
+		<params>
+			<param id="app">.*</param>
+			<!-- File descriptor -->
+			<param id="p1">.*</param>
+		</params>
+		<name>Read</name>
+		<description>Attempts to read up to count bytes from file descriptor fd</description>
+	</symbol_structure>
+
+
+
+</symbol_structures>

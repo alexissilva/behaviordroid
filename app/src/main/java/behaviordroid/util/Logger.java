@@ -18,7 +18,7 @@ public class Logger {
     public static synchronized void write(String stringToWrite){
 
         if(file == null) {
-            file = new File(Configuration.getLogPath());
+            file = new File(DroidConfiguration.getLogPath());
             if(!file.exists()) {
                 try {
                     file.createNewFile();

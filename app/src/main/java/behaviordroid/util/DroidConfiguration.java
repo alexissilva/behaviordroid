@@ -7,7 +7,7 @@ import android.os.Environment;
  *
  * Some configurations with its default values.
  */
-public class Configuration {
+public class DroidConfiguration {
 
 
     /**
@@ -50,7 +50,7 @@ public class Configuration {
     }
 
     public static void setRootDirectory(String rootDirectory) {
-        Configuration.rootDirectory = rootDirectory;
+        DroidConfiguration.rootDirectory = rootDirectory;
     }
 
     public static String getAutomatonFileDirectory() {
@@ -58,7 +58,7 @@ public class Configuration {
     }
 
     public static void setAutomatonFileDirectory(String automatonFileDirectory) {
-        Configuration.automatonFileDirectory = automatonFileDirectory;
+        DroidConfiguration.automatonFileDirectory = automatonFileDirectory;
     }
 
     public static String getSymbolStructureFilePath() {
@@ -66,7 +66,7 @@ public class Configuration {
     }
 
     public static void setSymbolStructureFilePath(String symbolStructureFilePath) {
-        Configuration.symbolStructureFilePath = symbolStructureFilePath;
+        DroidConfiguration.symbolStructureFilePath = symbolStructureFilePath;
     }
 
     public static String getMonitorFilePath() {
@@ -74,7 +74,7 @@ public class Configuration {
     }
 
     public static void setMonitorFilePath(String monitorFilePath) {
-        Configuration.monitorFilePath = monitorFilePath;
+        DroidConfiguration.monitorFilePath = monitorFilePath;
     }
 
     public static String getLogPath() {
@@ -82,7 +82,7 @@ public class Configuration {
     }
 
     public static void setLogPath(String logPath) {
-        Configuration.logPath = logPath;
+        DroidConfiguration.logPath = logPath;
     }
 
     public static String getStracePath() {
@@ -90,7 +90,7 @@ public class Configuration {
     }
 
     public static void setStracePath(String stracePath) {
-        Configuration.stracePath = stracePath;
+        DroidConfiguration.stracePath = stracePath;
     }
 
     public static boolean isListenToLogcat() {
@@ -98,7 +98,7 @@ public class Configuration {
     }
 
     public static void setListenToLogcat(boolean listenToLogcat) {
-        Configuration.listenToLogcat = listenToLogcat;
+        DroidConfiguration.listenToLogcat = listenToLogcat;
     }
 
     public static boolean isListenToSystemCalls() {
@@ -106,7 +106,7 @@ public class Configuration {
     }
 
     public static void setListenToSystemCalls(boolean listenToSystemCalls) {
-        Configuration.listenToSystemCalls = listenToSystemCalls;
+        DroidConfiguration.listenToSystemCalls = listenToSystemCalls;
     }
 
     public static long getSleepTimeProcessListener() {
@@ -114,7 +114,7 @@ public class Configuration {
     }
 
     public static void setSleepTimeProcessListener(long sleepTimeProcessListener) {
-        Configuration.sleepTimeProcessListener = sleepTimeProcessListener;
+        DroidConfiguration.sleepTimeProcessListener = sleepTimeProcessListener;
     }
 
     public static boolean isMinimizeAllAutomatons() {
@@ -122,6 +122,6 @@ public class Configuration {
     }
 
     public static void setMinimizeAllAutomatons(boolean minimizeAllAutomatons) {
-        Configuration.minimizeAllAutomatons = minimizeAllAutomatons;
+        DroidConfiguration.minimizeAllAutomatons = minimizeAllAutomatons;
     }
 }
