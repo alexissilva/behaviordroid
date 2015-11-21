@@ -77,9 +77,8 @@ public class Automaton {
         this.id = Utils.numberToLetters(id);
     }
 
-    //TODO change it for something more elegant?
-    public void setMergedId(String mergedId) {
-        this.id = "{" + mergedId + "}";
+    public void setId(String id) {
+        this.id = id;
     }
 
 

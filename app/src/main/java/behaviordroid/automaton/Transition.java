@@ -103,7 +103,7 @@ public class Transition {
                 }
 
                 //Minimizer app is a special value used for the minimizer to get the next state
-                if (!app.equals(Constants.MINIMIZER_APP) && !valueToProcess.equals(app)) {
+                if (!app.equals(Constants.SYSTEM_APP) && !valueToProcess.equals(app)) {
                     return false;
                 }
 

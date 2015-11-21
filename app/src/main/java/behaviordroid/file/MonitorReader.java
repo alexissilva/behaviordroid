@@ -59,7 +59,7 @@ public class MonitorReader extends FileReader {
 
                 if (qName.equalsIgnoreCase(MONITOR)) {
                     String app = attributes.getValue(APP);
-                    if (app.equals(Constants.MINIMIZER_APP) || app.equals(Constants.MONITORED_APP)) {
+                    if (app.equals(Constants.SYSTEM_APP) || app.equals(Constants.MONITORED_APP)) {
                         throw new SAXException(app + "is a reserved word.");
                     }
                     monitorDescription = new MonitorDescription(app);

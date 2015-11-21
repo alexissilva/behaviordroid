@@ -52,7 +52,6 @@ public class DroidService extends Service {
         }
         handler = new Handler();
 
-        //TODO do this inside the bootloader¿?
         Globals.getInstance().setService(this);
 
         //Start boot

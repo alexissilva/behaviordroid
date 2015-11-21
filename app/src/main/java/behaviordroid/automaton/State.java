@@ -31,19 +31,14 @@ public class State {
         return id;
     }
 
-    //TODO change for something more elegant
     public void setId(String idAutomaton, int id) {
 
         this.id = idAutomaton + id;
     }
 
-    public void setId(String id){
+    public void setId(String id) {
         this.id = id;
     }
-
-//    public void setMergedId(String idMergedAutomaton, String mergedId) {
-//        this.id = idMergedAutomaton + "_{" + mergedId + "}";
-//    }
 
 
     public String getName() {
@@ -137,13 +132,12 @@ public class State {
 
         transitionToRedirect.setDestinationState(newDestination);
         transitionToRedirect.resetId();
-//        return transitionToRedirect;
 
     }
 
-    public void addTransitionFromHere(Transition transition){
+    public void addTransitionFromHere(Transition transition) {
 
-        if(!transition.getOriginState().getId().equals(getId())){
+        if (!transition.getOriginState().getId().equals(getId())) {
             throw new IllegalArgumentException();
         }
 

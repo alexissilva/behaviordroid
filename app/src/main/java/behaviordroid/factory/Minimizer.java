@@ -42,7 +42,7 @@ public class Minimizer {
         Iterator<Transition> it = automaton.getTransitions().iterator();
         while (it.hasNext()) {
             Transition t = it.next();
-            t.getId(); //todo clean? do this for a comparation more fair
+            t.getId(); //generate id for every transition. you can delete this line if you wish.
             if (t.getDestinationState().getId().equals(t.getOriginState().getId())) {
                 it.remove();
             }
@@ -65,8 +65,6 @@ public class Minimizer {
         boolean[][] distinguishablePairs = getDistinguishablePairs(automaton);
 
         //step 3....
-//        List<Transition> redirectedTransitions = new ArrayList<>();
-
         for (int i = 0; i < automaton.getStates().size(); i++) {
             State stateToKeep = automaton.getStates().get(i);
             if (stateToKeep == null) {
@@ -95,9 +93,6 @@ public class Minimizer {
 
 
 
-                    //restart
-//                    redirectedTransitions.clear();
-
                     //delete transitions from state-to-delete
                     // and redirect transitions to state-to-delete to state-to-keep.
                     Iterator<Transition> it = automaton.getTransitions().iterator();
@@ -110,29 +105,15 @@ public class Minimizer {
                             it.remove();
 
                         } else if (destinationState.getId().equals(stateToDelete.getId())) {
-                            //remove the old transition from the list...
 
+                            //redirect transition from the list...
                             t.setDestinationState(stateToKeep);
-//                            it.remove();
 
                             //In the case is not the same object, redirect the transition from the state too...
-                            //But that never should be pass...So, check your code.
-                            //The idea is reuse to reduce the memory consume
+                            //But that never should be pass...The idea is reuse objects, to reduce the memory consume.
                             originState.redirectTransition(t.getSymbol().getId(), stateToKeep);
-                            //redirect transition of the state...
-//                            Transition redirectedTransition = originState.redirectTransition
-//                                    (t.getSymbol().getId(), stateToKeep);
-
-                            //save redirected transition to add to automaton later
-//                            redirectedTransitions.add(redirectedTransition);
                         }
                     }
-                    //add redirected transitions
-//                    for (Transition t : redirectedTransitions) {
-//                        automaton.getTransitions().addAll(redirectedTransitions);
-//                    }
-
-
                 }
             }
         }
@@ -195,34 +176,6 @@ public class Minimizer {
             //so, isn't necessary repeat that work.
         }
 
-
-        //It's to BAD algorithm.
-        /*boolean anyRemoved;
-        boolean connected;
-        do {
-            anyRemoved = false;
-            Iterator<State> it = automaton.getStates().iterator();
-            while (it.hasNext()) {
-                State s = it.next();
-
-                //Initial is always connected
-                if (!s.isInitialState()) {
-
-                    connected = false;
-                    for (Transition t : automaton.getTransitions()) {
-                        if (t.getDestinationState().getId().equals(s.getId())) {
-                            connected = true;
-                            break;
-                        }
-                    }
-
-                    if (!connected) {
-                        it.remove();
-                        anyRemoved = true;
-                    }
-                }
-            }
-        } while (anyRemoved);*/
     }
 
     private static boolean[][] getDistinguishablePairs(Automaton automaton) throws NonDeterministicException {
@@ -247,7 +200,6 @@ public class Minimizer {
         }
 
         //To know the position in the list of "next states"
-//        HashMap<String, Integer> stateIndexHash = createStateIndexHash(automaton);
         HashMap<String, ArrayList<Integer>> nextStateIndexHash = createNextStateIndexHash(automaton);
 
         //Second step: 2 states are distinguishable if with a symbol go to different way (ie, go to distinguishable pair)
@@ -261,17 +213,7 @@ public class Minimizer {
                 //Get state 1 and get the indexes of all possible next states
                 State state1 = automaton.getStates().get(i);
                 List<Integer> indexNext1List = nextStateIndexHash.get(state1.getId());
-//                List<Integer> indexNext1List = new ArrayList<>();
-//                for (Symbol s : automaton.getAlphabet()) {
-//                    State nextState1 = state1.getNextState(s, Constants.MINIMIZER_APP);
-//                    if (nextState1 == null) {
-//                        //If don't exist a transition with this symbol, then doesn't change of state
-//                        nextState1 = state1;
-//                    }
-////                    int indexNext1 = getIndexOfStateWithId(automaton, nextState1.getId());
-//                    int indexNext1 = stateIndexHash.get(nextState1.getId());
-//                    indexNext1List.add(indexNext1);
-//                }
+
 
                 for (int j = 0; j < i; j++) {
 
@@ -291,15 +233,6 @@ public class Minimizer {
                         //Get the pre-calculated index of nextState1 and nextState2
                         int indexNext1 = indexNext1List.get(k);
                         int indexNext2 = indexNext2List.get(k);
-
-//                        //Calculate the index of nextState2
-//                        Symbol symbol = automaton.getAlphabet().get(k);
-//                        State nextState2 = state2.getNextState(symbol, Constants.MINIMIZER_APP);
-//                        if (nextState2 == null) {
-//                            nextState2 = state2;
-//                        }
-////                        int indexNext2 = getIndexOfStateWithId(automaton, nextState2.getId());
-//                        int indexNext2 = stateIndexHash.get(nextState2.getId());
 
                         //Check if "next pair" is distinguishable (in both side, because I don't
                         // know if indexNext2 is less than indexNext1 and only that side is filled)
@@ -322,25 +255,6 @@ public class Minimizer {
 
         return distinguishablePairs;
 
-    }
-
-
-    /**
-     * Gets the index (of the state list of automaton) of the state that has the id stateId.
-     * <p/>
-     * In this case the use of this function is recommended over indexOf (from interface List),
-     * because it's possible have 2 different objects with the same id.
-     */
-    //TODO use another structure (hash)
-    private static int getIndexOfStateWithId(Automaton automaton, String stateId) {
-
-        for (int i = 0; i < automaton.getStates().size(); i++) {
-            if (automaton.getStates().get(i).getId().equals(stateId)) {
-                return i;
-            }
-        }
-
-        return -1;
     }
 
 
@@ -370,7 +284,7 @@ public class Minimizer {
             ArrayList nextStateIndexList = new ArrayList(alphabetSize);
             for (Symbol sym : automaton.getAlphabet()) {
 
-                State nextState = state.getNextState(sym, Constants.MINIMIZER_APP);
+                State nextState = state.getNextState(sym, Constants.SYSTEM_APP);
                 if (nextState == null) {
                     nextState = state;
                 }

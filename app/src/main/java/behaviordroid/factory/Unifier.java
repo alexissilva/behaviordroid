@@ -2,6 +2,7 @@ package behaviordroid.factory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,11 +24,8 @@ public class Unifier {
 
     public static Automaton uniteAutomatons(List<Automaton> automatonList) throws InconsistentSpecificationException, NonDeterministicException {
 
-
-        //TODO delete this?
-        //todo do with a hashset
         //Remove replied automatons
-        List<String> ids = new ArrayList<>();
+        HashSet<String> ids = new HashSet<>();
         Iterator<Automaton> it = automatonList.iterator();
         while (it.hasNext()) {
             Automaton automaton = it.next();
@@ -48,7 +46,7 @@ public class Unifier {
             mergedId += a.getId() + Constants.SEPARATOR;
             mergedFileName += a.getFilename() + Constants.SEPARATOR;
         }
-        newAutomaton.setMergedId(mergedId);
+        newAutomaton.setId(mergedId);
         newAutomaton.setFilename(mergedFileName);
 
 
@@ -60,32 +58,19 @@ public class Unifier {
             initialStateList.add(a.getInitialState());
         }
 
-/*
-
-        //Set alphabet adding all super symbol w/out repetitions and creating new objects.
-        //If a symbol doesn't have well defined the parameter app, put a specific value.
-        for (Symbol symbol : auxAlphabet) {
-            newAutomaton.addNewSymbol(createSymbolWithApp(symbol, app));
-        }
-*/
 
         for (Symbol s : auxAlphabet) {
             newAutomaton.addNewSymbol(s);
         }
 
-        //Set initial state creating a new one from the merging of all initial states...
-//        State initialState = uniteStates(initialStateList, newAutomaton);
-
+        //Prepare first argument to unite states.
         UnionArg arg = new UnionArg();
         arg.origin = null;
         arg.symbol = null;
         arg.states = initialStateList;
 
-
         uniteStates(arg, newAutomaton);
 
-
-        //Note: In the recursive method uniteStates are added the other symbols and transitions...
 
         return newAutomaton;
 
@@ -99,28 +84,17 @@ public class Unifier {
         List<State> states;
     }
 
-    //todo private
-    public static void uniteStates(UnionArg firstArg, Automaton underConstruction) throws InconsistentSpecificationException, NonDeterministicException {
+    private static void uniteStates(UnionArg firstArg, Automaton underConstruction) throws InconsistentSpecificationException, NonDeterministicException {
 
 
         LinkedList<UnionArg> argStack = new LinkedList<>();
         argStack.push(firstArg);
 
 
-//        HashMap<String, HashSet<String>> unitedIds = new HashMap<>();
-
-//        String mergedId;
-//        String mergedName;
-//        boolean finalState;
-//        boolean greenBehavior;
-//        boolean redBehavior;
-//        boolean exist;
-
         while (!argStack.isEmpty()) {
 
             UnionArg arg = argStack.getFirst();
             List<State> stateList = arg.states;
-//            List<State> stateList = new ArrayList<>(new LinkedHashSet<>(arg.states));
 
             String idToMerge = "";
             for (State stateToMerge : stateList) {
@@ -130,41 +104,14 @@ public class Unifier {
             //verify if was created previously...
             boolean exist = false;
             for (State addedState : underConstruction.getStates()) {
-//                exist = true;
 
-                //TODO third experiment ... simple compare 2 string, because the order is the same
-                if(addedState.getId().equals(idToMerge)){
+                //simply compare 2 string, because the order is the same
+                if (addedState.getId().equals(idToMerge)) {
                     exist = true;
-                }else{
+                } else {
                     exist = false;
                 }
 
-//                //second expriment
-//                HashSet<String> idSet = unitedIds.get(addedState.getId());
-//                for (State stateToMerge : stateList) {
-//                    if (!idSet.contains(stateToMerge.getId())) {
-//                        exist = false;
-//                        break;
-//                    }
-//                }
-
-
-//                HashSet<String> ids = new HashSet<>(Arrays.asList(addedState.getId().split(Constants.SEPARATOR)));
-//                for (State stateToMerge : stateList) {
-//                    if(!ids.contains(stateToMerge.getId())){
-//                        exist = false;
-//                        break;
-//                    }
-//                }
-
-
-//                for (State stateToMerge : stateList) {
-//                    String aux = Constants.SEPARATOR + stateToMerge.getId() + Constants.SEPARATOR;
-//                    if (!addedState.getId().contains(aux)) {
-//                        exist = false;
-//                        break;
-//                    }
-//                }
                 if (exist) {
 
                     if (arg.origin != null) {
@@ -176,7 +123,7 @@ public class Unifier {
 
                         arg.origin.getTransitionsFromHere().add(newTransition);
 
-                        //TODO check this -> I'm not sure if in this stage always be a new transition.
+                        //add transition to automaton
                         underConstruction.getTransitions().add(newTransition);
 
                     } else {
@@ -194,26 +141,9 @@ public class Unifier {
             }
 
 
-            //todo delete this
-            //remove repetitions
-//            HashSet<String> ids = new HashSet<>();
-////            List<String> ids = new ArrayList<>();
-//            Iterator<State> it = stateList.iterator();
-//            while (it.hasNext()) {
-//                State state = it.next();
-//                if (!ids.contains(state.getId())) {
-//                    ids.add(state.getId());
-//                } else {
-//                    it.remove();
-//                }
-//            }
-
-
             //if none of the above is true, we have to create a new one merging the others
             State newState = new State();
 
-//        List<Transition> auxTransitions = new ArrayList<>();
-            //TODO init outside of the loop¿?¿?
             String mergedId = "";
             String mergedName = "";
             boolean finalState = false;
@@ -224,7 +154,6 @@ public class Unifier {
 
             for (State s : stateList) {
 
-                //TODO sacar primer separador
                 //merge id and name
                 mergedId += s.getId() + Constants.SEPARATOR;
                 mergedName += s.getName() + Constants.SEPARATOR;
@@ -240,8 +169,7 @@ public class Unifier {
                     redBehavior = true;
                 }
 
-                //add transitions (originals well-defined, specific-app and missing transitions)
-//            auxTransitions.addAll(getAllTransitions(s, underConstruction.getAlphabet()));
+                //add next states to transitionHash
                 addNextStates(transitionHash, s, underConstruction.getAlphabet());
 
             }
@@ -262,31 +190,11 @@ public class Unifier {
                 newState.setBehaviorType(BehaviorType.WHITE);
             }
 
-            //TODO check this -> I'm not sure if in this stage always be a new state.
+            //add state to automaton
             underConstruction.getStates().add(newState);
-            //automatonUnderConstruction.addNewState(newState);
-
-            //TODO cehck experiment
 
 
-//            unitedIds.put(newState.getId(), ids);
-
-/*
-        //Group transition by symbol...
-        //Use id of symbol because es possible exist 2 objects different with same id.
-        HashMap<String, List<State>> transitionHash = new HashMap<>();
-        for (Transition t : auxTransitions) {
-
-            String symbolId = t.getSymbol().getId();
-            if (!transitionHash.containsKey(symbolId)) {
-                transitionHash.put(symbolId, new ArrayList<State>());
-            }
-            transitionHash.get(symbolId).add(t.getDestinationState());
-        }*/
-
-
-            //Create one transition per symbol...
-//            List<Transition> transitionsFromHere = new ArrayList<>();
+            //Add new states for unite to stack...
             for (String symbolId : transitionHash.keySet()) {
 
                 UnionArg arg2 = new UnionArg();
@@ -297,26 +205,10 @@ public class Unifier {
 
                 argStack.push(arg2);
 
-//                Transition newTransition = new Transition();
-//                newTransition.setOriginState(newState);
-//                newTransition.setSymbol(findSymbolById(underConstruction.getAlphabet(), symbolId));
-//
-//
-//                newTransition.setDestinationState(uniteStates(transitionHash.get(symbolId), underConstruction));
-//                transitionsFromHere.add(newTransition);
-//
-//
-//                //TODO check this -> I'm not sure if in this stage always be a new transition.
-//                underConstruction.getTransitions().add(newTransition);
-//                //automatonUnderConstruction.addNewTransition(newTransition);
-
             }
 
-//            newState.setTransitionsFromHere(transitionsFromHere);
 
         }
-
-//        return newState;
 
     }
 
@@ -334,8 +226,7 @@ public class Unifier {
 
 
         for (Symbol sym : alphabet) {
-            //TODO change name of minimizer app -> system
-            State next = state.getNextState(sym, Constants.MINIMIZER_APP);
+            State next = state.getNextState(sym, Constants.SYSTEM_APP);
             if (next == null) {
                 next = state;
             }
@@ -348,52 +239,6 @@ public class Unifier {
                 nextStateHash.get(sym.getId()).add(next);
             }
         }
-    }
-
-
-    //TODO clean this
-//    /**
-//     * Get transitions from the state well defined, replace the transitions with app parameter
-//     * bad defined the parameter app and add the missing transition.
-//     * <p/>
-//     * A parameter well defined means that accept a specific value and don't other.
-//     * <p/>
-//     * Every state of an AFD must have defined one transition per every symbol of the alphabet.
-//     * If this isn't fulfilled is necessary add loop transitions per every symbol not defined
-//     * (missing transitions)
-//     */
-
-    /**
-     * @return all transitions of state (even the "omitted" ones)
-     */
-    private static List<Transition> getAllTransitions(State state, List<Symbol> alphabet) {
-
-        List<Transition> transitionList = new ArrayList<>();
-        transitionList.addAll(state.getTransitionsFromHere());
-
-
-        //Save the ids of all symbol that are in some transition
-        List<String> symbolsFromHere = new ArrayList<>();
-        for (Transition t : transitionList) {
-            symbolsFromHere.add(t.getSymbol().getId());
-        }
-
-        //Add a new transition (loop) per each symbol that wasn't in any transition previously
-        for (Symbol s : alphabet) {
-            if (!symbolsFromHere.contains(s.getId())) {
-
-                Transition newTransition = new Transition();
-                newTransition.setOriginState(state);
-                newTransition.setDestinationState(state);
-                newTransition.setSymbol(s);
-
-                transitionList.add(newTransition);
-            }
-        }
-
-
-        return transitionList;
-
     }
 
 

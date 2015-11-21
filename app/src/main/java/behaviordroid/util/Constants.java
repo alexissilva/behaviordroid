@@ -24,7 +24,7 @@ public class Constants {
     /**
      * Used by the minimizer to get the next state without an app.
      */
-    public static final String MINIMIZER_APP = "@minimizer";
+    public static final String SYSTEM_APP = "@system";
 
     /**
      * Used to merge id, names, etc. (very useful in Unifier)

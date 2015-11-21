@@ -67,7 +67,6 @@ public class SymbolStructureReader extends FileReader {
     @Override
     protected DefaultHandler generateDocumentHandler() {
 
-        // Implements a generic DefaultHandler to handle (doh!) the file reading
         return new DefaultHandler() {
 
             //Aux variables
@@ -77,7 +76,6 @@ public class SymbolStructureReader extends FileReader {
             SymbolStructure symbolStructure;
             String idParameter;
             MessageSyntax messageSyntax;
-//            List<String> rawMessageSyntaxes;
 
             @Override
             public void startDocument() {
@@ -93,7 +91,6 @@ public class SymbolStructureReader extends FileReader {
 
                     if (attributes.getValue(TYPE).equalsIgnoreCase(LOGCAT)) {
                         symbolStructure = new SymbolStructureLogcat();
-//                        rawMessageSyntaxes = new ArrayList<>();
                     } else if (attributes.getValue(TYPE).equalsIgnoreCase(STRACE)) {
                         symbolStructure = new SymbolStructureStrace();
                     } else {
@@ -128,22 +125,6 @@ public class SymbolStructureReader extends FileReader {
 
 
 
-//                } else if (qName.equalsIgnoreCase(DESCRIPTION)) {
-//                    readDescription = true;
-//                } else if (qName.equalsIgnoreCase(LEVEL)) {
-//                    readLevel = true;
-//                } else if (qName.equalsIgnoreCase(TAG)) {
-//                    readTag = true;
-//
-//                } else if (qName.equalsIgnoreCase(EXPRESSION)) {
-//                    readExpression = true;
-//
-//                } else if (qName.equalsIgnoreCase(NAME_CALL)) {
-//                    readNameCall = true;
-//                } else if (qName.equalsIgnoreCase(APP_LOCATION)) {
-//                    readLocationApp = true;
-//                }
-
 
             }
 
@@ -153,66 +134,6 @@ public class SymbolStructureReader extends FileReader {
                 if(readChars){
                     sb.append(ch, start, length);
                 }
-
-                //TODO clean this
-
-/*
-
-                if (readParam) {
-                    Pattern description = Pattern.compile(new String(ch, start, length));
-                    symbolStructure.getParameterDescriptions().put(idParameter, description);
-                    readParam = false;
-                } else if (readName) {
-                    symbolStructure.setName(new String(ch, start, length));
-                    readName = false;
-                } else if (readDescription) {
-                    symbolStructure.setDescription(new String(ch, start, length));
-                    readDescription = false;
-                } else if (readLevel) {
-                    try {
-                        ((SymbolStructureLogcat) symbolStructure).setLevel(new String(ch, start, length));
-                    } catch (ClassCastException e) {
-                        throw new SAXException("Symbol structure " + symbolStructure.getId() + ": Only logcat symbols has level.");
-                    }
-                    readLevel = false;
-                } else if (readTag) {
-                    try {
-                        ((SymbolStructureLogcat) symbolStructure).setTag(new String(ch, start, length));
-                    } catch (ClassCastException e) {
-                        throw new SAXException("Symbol structure " + symbolStructure.getId() + ": Only logcat symbols has tag.");
-                    }
-                    readTag = false;
-                } else if (readExpression) {
-                    Pattern expression = Pattern.compile(new String(ch, start, length));
-                    messageSyntax.setExpression(expression);
-                    readExpression = false;
-                } else if (readNameCall) {
-                    try {
-                        ((SymbolStructureStrace) symbolStructure).setNameSystemCall(new String(ch, start, length));
-                    } catch (ClassCastException e) {
-                        throw new SAXException("Symbol structure " + symbolStructure.getId() + ": Only strace symbols has name system call.");
-                    }
-                    readNameCall = false;
-                } else if (readLocationApp) {
-
-                    String locationAux = new String(ch, start, length);
-                    int locationApp = -1;
-                    if (locationAux.equalsIgnoreCase(MESSAGE)) {
-                        locationApp = SymbolStructureLogcat.MESSAGE;
-                    } else if (locationAux.equalsIgnoreCase(PID)) {
-                        locationApp = SymbolStructureLogcat.PID;
-                    } else if (locationAux.equalsIgnoreCase(NO_APP)) {
-                        locationApp = SymbolStructureLogcat.NO_APP;
-                    }
-                    try {
-                        ((SymbolStructureLogcat) symbolStructure).setAppLocation(locationApp);
-                    } catch (ClassCastException e) {
-                        throw new SAXException("Symbol structure " + symbolStructure.getId() + ": Only logcat symbols has location app.");
-                    }
-                    readLocationApp = false;
-                }
-*/
-
 
             }
 
